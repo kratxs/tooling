@@ -71,3 +71,4 @@ Default web root:
 /usr/share/nginx/html
 ```
 
+new edit
