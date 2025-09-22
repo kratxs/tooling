@@ -1,77 +1,43 @@
--- phpMyAdmin SQL Dump
--- version 5.0.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Oct 14, 2020 at 03:51 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.9
+-- Clean import for DB: tooling
+-- Compatible with MySQL 5.7+/8.0+ and MariaDB 10.3+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
-;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
-;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */
-;
-/*!40101 SET NAMES utf8mb4 */
-;
---
--- Database: `multi_login`
---
--- --------------------------------------------------------
---
--- Table structure for table `users`
---
+SET NAMES utf8mb4;
+
+START TRANSACTION;
+
+-- Ensure database exists and select it
+CREATE DATABASE IF NOT EXISTS `tooling`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+USE `tooling`;
+
+-- Recreate table
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `user_type` varchar(255) NOT NULL,
-  `status` varchar(10) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
---
--- Dumping data for table `users`
---
-INSERT INTO `users` (
-    `id`,
-    `username`,
-    `password`,
-    `email`,
-    `user_type`,
-    `status`
-  )
-VALUES (
-    1,
-    'admin',
-    '21232f297a57a5a743894a0e4a801fc3',
-    'dare@dare.com',
-    'admin',
-    '1'
-  );
---
--- Indexes for dumped tables
---
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-ADD PRIMARY KEY (`id`);
---
--- AUTO_INCREMENT for dumped tables
---
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-  AUTO_INCREMENT = 3;
+  `id`        INT(11) NOT NULL AUTO_INCREMENT,
+  `username`  VARCHAR(255) NOT NULL,
+  `password`  VARCHAR(255) NOT NULL,
+  `email`     VARCHAR(255) NOT NULL,
+  `user_type` VARCHAR(255) NOT NULL,
+  `status`    VARCHAR(10)  NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Seed row
+INSERT INTO `users`
+  (`id`,`username`,`password`,`email`,`user_type`,`status`)
+VALUES
+  (1,'admin','21232f297a57a5a743894a0e4a801fc3','dare@dare.com','admin','1')
+ON DUPLICATE KEY UPDATE
+  username=VALUES(username),
+  password=VALUES(password),
+  email=VALUES(email),
+  user_type=VALUES(user_type),
+  status=VALUES(status);
+
+-- Keep AUTO_INCREMENT ahead of inserted ids
+ALTER TABLE `users` AUTO_INCREMENT = 3;
+
 COMMIT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */
-;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */
-;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
-;
